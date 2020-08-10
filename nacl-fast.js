@@ -1,6 +1,3 @@
-(function(nacl) {
-'use strict';
-
 // Ported in 2014 by Dmitry Chestnykh and Devi Mandiri.
 // Public domain.
 //
@@ -2088,63 +2085,63 @@ var crypto_secretbox_KEYBYTES = 32,
     crypto_sign_SEEDBYTES = 32,
     crypto_hash_BYTES = 64;
 
-nacl.lowlevel = {
-  crypto_core_hsalsa20: crypto_core_hsalsa20,
-  crypto_stream_xor: crypto_stream_xor,
-  crypto_stream: crypto_stream,
-  crypto_stream_salsa20_xor: crypto_stream_salsa20_xor,
-  crypto_stream_salsa20: crypto_stream_salsa20,
-  crypto_onetimeauth: crypto_onetimeauth,
-  crypto_onetimeauth_verify: crypto_onetimeauth_verify,
-  crypto_verify_16: crypto_verify_16,
-  crypto_verify_32: crypto_verify_32,
-  crypto_secretbox: crypto_secretbox,
-  crypto_secretbox_open: crypto_secretbox_open,
-  crypto_scalarmult: crypto_scalarmult,
-  crypto_scalarmult_base: crypto_scalarmult_base,
-  crypto_box_beforenm: crypto_box_beforenm,
-  crypto_box_afternm: crypto_box_afternm,
-  crypto_box: crypto_box,
-  crypto_box_open: crypto_box_open,
-  crypto_box_keypair: crypto_box_keypair,
-  crypto_hash: crypto_hash,
-  crypto_sign: crypto_sign,
-  crypto_sign_keypair: crypto_sign_keypair,
-  crypto_sign_open: crypto_sign_open,
+export {
+  crypto_core_hsalsa20,
+  crypto_stream_xor,
+  crypto_stream,
+  crypto_stream_salsa20_xor,
+  crypto_stream_salsa20,
+  crypto_onetimeauth,
+  crypto_onetimeauth_verify,
+  crypto_verify_16,
+  crypto_verify_32,
+  crypto_secretbox,
+  crypto_secretbox_open,
+  crypto_scalarmult,
+  crypto_scalarmult_base,
+  crypto_box_beforenm,
+  crypto_box_afternm,
+  crypto_box,
+  crypto_box_open,
+  crypto_box_keypair,
+  crypto_hash,
+  crypto_sign,
+  crypto_sign_keypair,
+  crypto_sign_open,
 
-  crypto_secretbox_KEYBYTES: crypto_secretbox_KEYBYTES,
-  crypto_secretbox_NONCEBYTES: crypto_secretbox_NONCEBYTES,
-  crypto_secretbox_ZEROBYTES: crypto_secretbox_ZEROBYTES,
-  crypto_secretbox_BOXZEROBYTES: crypto_secretbox_BOXZEROBYTES,
-  crypto_scalarmult_BYTES: crypto_scalarmult_BYTES,
-  crypto_scalarmult_SCALARBYTES: crypto_scalarmult_SCALARBYTES,
-  crypto_box_PUBLICKEYBYTES: crypto_box_PUBLICKEYBYTES,
-  crypto_box_SECRETKEYBYTES: crypto_box_SECRETKEYBYTES,
-  crypto_box_BEFORENMBYTES: crypto_box_BEFORENMBYTES,
-  crypto_box_NONCEBYTES: crypto_box_NONCEBYTES,
-  crypto_box_ZEROBYTES: crypto_box_ZEROBYTES,
-  crypto_box_BOXZEROBYTES: crypto_box_BOXZEROBYTES,
-  crypto_sign_BYTES: crypto_sign_BYTES,
-  crypto_sign_PUBLICKEYBYTES: crypto_sign_PUBLICKEYBYTES,
-  crypto_sign_SECRETKEYBYTES: crypto_sign_SECRETKEYBYTES,
-  crypto_sign_SEEDBYTES: crypto_sign_SEEDBYTES,
-  crypto_hash_BYTES: crypto_hash_BYTES,
+  crypto_secretbox_KEYBYTES,
+  crypto_secretbox_NONCEBYTES,
+  crypto_secretbox_ZEROBYTES,
+  crypto_secretbox_BOXZEROBYTES,
+  crypto_scalarmult_BYTES,
+  crypto_scalarmult_SCALARBYTES,
+  crypto_box_PUBLICKEYBYTES,
+  crypto_box_SECRETKEYBYTES,
+  crypto_box_BEFORENMBYTES,
+  crypto_box_NONCEBYTES,
+  crypto_box_ZEROBYTES,
+  crypto_box_BOXZEROBYTES,
+  crypto_sign_BYTES,
+  crypto_sign_PUBLICKEYBYTES,
+  crypto_sign_SECRETKEYBYTES,
+  crypto_sign_SEEDBYTES,
+  crypto_hash_BYTES,
 
-  gf: gf,
-  D: D,
-  L: L,
-  pack25519: pack25519,
-  unpack25519: unpack25519,
-  M: M,
-  A: A,
-  S: S,
-  Z: Z,
-  pow2523: pow2523,
-  add: add,
-  set25519: set25519,
-  modL: modL,
-  scalarmult: scalarmult,
-  scalarbase: scalarbase,
+  gf,
+  D,
+  L,
+  pack25519,
+  unpack25519,
+  M,
+  A,
+  S,
+  Z,
+  pow2523,
+  add,
+  set25519,
+  modL,
+  scalarmult,
+  scalarbase
 };
 
 /* High-level API */
@@ -2170,13 +2167,13 @@ function cleanup(arr) {
   for (var i = 0; i < arr.length; i++) arr[i] = 0;
 }
 
-nacl.randomBytes = function(n) {
+export function randomBytes (n) {
   var b = new Uint8Array(n);
   randombytes(b, n);
   return b;
 };
 
-nacl.secretbox = function(msg, nonce, key) {
+export function secretbox (msg, nonce, key) {
   checkArrayTypes(msg, nonce, key);
   checkLengths(key, nonce);
   var m = new Uint8Array(crypto_secretbox_ZEROBYTES + msg.length);
@@ -2186,7 +2183,7 @@ nacl.secretbox = function(msg, nonce, key) {
   return c.subarray(crypto_secretbox_BOXZEROBYTES);
 };
 
-nacl.secretbox.open = function(box, nonce, key) {
+export function secretbox_open (box, nonce, key) {
   checkArrayTypes(box, nonce, key);
   checkLengths(key, nonce);
   var c = new Uint8Array(crypto_secretbox_BOXZEROBYTES + box.length);
@@ -2197,11 +2194,11 @@ nacl.secretbox.open = function(box, nonce, key) {
   return m.subarray(crypto_secretbox_ZEROBYTES);
 };
 
-nacl.secretbox.keyLength = crypto_secretbox_KEYBYTES;
-nacl.secretbox.nonceLength = crypto_secretbox_NONCEBYTES;
-nacl.secretbox.overheadLength = crypto_secretbox_BOXZEROBYTES;
+export const secretbox_keyLength = crypto_secretbox_KEYBYTES;
+export const secretbox_nonceLength = crypto_secretbox_NONCEBYTES;
+export const secretbox_overheadLength = crypto_secretbox_BOXZEROBYTES;
 
-nacl.scalarMult = function(n, p) {
+export function scalarMult (n, p) {
   checkArrayTypes(n, p);
   if (n.length !== crypto_scalarmult_SCALARBYTES) throw new Error('bad n size');
   if (p.length !== crypto_scalarmult_BYTES) throw new Error('bad p size');
@@ -2210,7 +2207,7 @@ nacl.scalarMult = function(n, p) {
   return q;
 };
 
-nacl.scalarMult.base = function(n) {
+export function scalarMult_base (n) {
   checkArrayTypes(n);
   if (n.length !== crypto_scalarmult_SCALARBYTES) throw new Error('bad n size');
   var q = new Uint8Array(crypto_scalarmult_BYTES);
@@ -2218,15 +2215,14 @@ nacl.scalarMult.base = function(n) {
   return q;
 };
 
-nacl.scalarMult.scalarLength = crypto_scalarmult_SCALARBYTES;
-nacl.scalarMult.groupElementLength = crypto_scalarmult_BYTES;
-
-nacl.box = function(msg, nonce, publicKey, secretKey) {
-  var k = nacl.box.before(publicKey, secretKey);
-  return nacl.secretbox(msg, nonce, k);
+export const scalarMult_scalarLength = crypto_scalarmult_SCALARBYTES;
+export const scalarMult_groupElementLength = crypto_scalarmult_BYTES;
+export function box (msg, nonce, publicKey, secretKey) {
+  var k = box_before(publicKey, secretKey);
+  return secretbox(msg, nonce, k);
 };
 
-nacl.box.before = function(publicKey, secretKey) {
+export function box_before (publicKey, secretKey) {
   checkArrayTypes(publicKey, secretKey);
   checkBoxLengths(publicKey, secretKey);
   var k = new Uint8Array(crypto_box_BEFORENMBYTES);
@@ -2234,23 +2230,23 @@ nacl.box.before = function(publicKey, secretKey) {
   return k;
 };
 
-nacl.box.after = nacl.secretbox;
+export const box_after = secretbox;
 
-nacl.box.open = function(msg, nonce, publicKey, secretKey) {
-  var k = nacl.box.before(publicKey, secretKey);
-  return nacl.secretbox.open(msg, nonce, k);
+export function box_open (msg, nonce, publicKey, secretKey) {
+  var k = box_before(publicKey, secretKey);
+  return secretbox_open(msg, nonce, k);
 };
 
-nacl.box.open.after = nacl.secretbox.open;
+export const box_open_after = secretbox_open;
 
-nacl.box.keyPair = function() {
+export function box_keyPair () {
   var pk = new Uint8Array(crypto_box_PUBLICKEYBYTES);
   var sk = new Uint8Array(crypto_box_SECRETKEYBYTES);
   crypto_box_keypair(pk, sk);
   return {publicKey: pk, secretKey: sk};
 };
 
-nacl.box.keyPair.fromSecretKey = function(secretKey) {
+export function box_keyPair_fromSecretKey (secretKey) {
   checkArrayTypes(secretKey);
   if (secretKey.length !== crypto_box_SECRETKEYBYTES)
     throw new Error('bad secret key size');
@@ -2259,13 +2255,12 @@ nacl.box.keyPair.fromSecretKey = function(secretKey) {
   return {publicKey: pk, secretKey: new Uint8Array(secretKey)};
 };
 
-nacl.box.publicKeyLength = crypto_box_PUBLICKEYBYTES;
-nacl.box.secretKeyLength = crypto_box_SECRETKEYBYTES;
-nacl.box.sharedKeyLength = crypto_box_BEFORENMBYTES;
-nacl.box.nonceLength = crypto_box_NONCEBYTES;
-nacl.box.overheadLength = nacl.secretbox.overheadLength;
-
-nacl.sign = function(msg, secretKey) {
+export const box_publicKeyLength = crypto_box_PUBLICKEYBYTES;
+export const box_secretKeyLength = crypto_box_SECRETKEYBYTES;
+export const box_sharedKeyLength = crypto_box_BEFORENMBYTES;
+export const box_nonceLength = crypto_box_NONCEBYTES;
+export const box_overheadLength = secretbox_overheadLength;
+export function sign (msg, secretKey) {
   checkArrayTypes(msg, secretKey);
   if (secretKey.length !== crypto_sign_SECRETKEYBYTES)
     throw new Error('bad secret key size');
@@ -2274,7 +2269,7 @@ nacl.sign = function(msg, secretKey) {
   return signedMsg;
 };
 
-nacl.sign.open = function(signedMsg, publicKey) {
+export function sign_open (signedMsg, publicKey) {
   checkArrayTypes(signedMsg, publicKey);
   if (publicKey.length !== crypto_sign_PUBLICKEYBYTES)
     throw new Error('bad public key size');
@@ -2286,14 +2281,14 @@ nacl.sign.open = function(signedMsg, publicKey) {
   return m;
 };
 
-nacl.sign.detached = function(msg, secretKey) {
-  var signedMsg = nacl.sign(msg, secretKey);
+export function sign_detached (msg, secretKey) {
+  var signedMsg = sign(msg, secretKey);
   var sig = new Uint8Array(crypto_sign_BYTES);
   for (var i = 0; i < sig.length; i++) sig[i] = signedMsg[i];
   return sig;
 };
 
-nacl.sign.detached.verify = function(msg, sig, publicKey) {
+export function sign_detached_verify (msg, sig, publicKey) {
   checkArrayTypes(msg, sig, publicKey);
   if (sig.length !== crypto_sign_BYTES)
     throw new Error('bad signature size');
@@ -2307,14 +2302,14 @@ nacl.sign.detached.verify = function(msg, sig, publicKey) {
   return (crypto_sign_open(m, sm, sm.length, publicKey) >= 0);
 };
 
-nacl.sign.keyPair = function() {
+export function sign_keyPair () {
   var pk = new Uint8Array(crypto_sign_PUBLICKEYBYTES);
   var sk = new Uint8Array(crypto_sign_SECRETKEYBYTES);
   crypto_sign_keypair(pk, sk);
   return {publicKey: pk, secretKey: sk};
 };
 
-nacl.sign.keyPair.fromSecretKey = function(secretKey) {
+export function sign_keyPair_fromSecretKey (secretKey) {
   checkArrayTypes(secretKey);
   if (secretKey.length !== crypto_sign_SECRETKEYBYTES)
     throw new Error('bad secret key size');
@@ -2323,7 +2318,7 @@ nacl.sign.keyPair.fromSecretKey = function(secretKey) {
   return {publicKey: pk, secretKey: new Uint8Array(secretKey)};
 };
 
-nacl.sign.keyPair.fromSeed = function(seed) {
+export function sign_keyPair_fromSeed (seed) {
   checkArrayTypes(seed);
   if (seed.length !== crypto_sign_SEEDBYTES)
     throw new Error('bad seed size');
@@ -2334,21 +2329,19 @@ nacl.sign.keyPair.fromSeed = function(seed) {
   return {publicKey: pk, secretKey: sk};
 };
 
-nacl.sign.publicKeyLength = crypto_sign_PUBLICKEYBYTES;
-nacl.sign.secretKeyLength = crypto_sign_SECRETKEYBYTES;
-nacl.sign.seedLength = crypto_sign_SEEDBYTES;
-nacl.sign.signatureLength = crypto_sign_BYTES;
-
-nacl.hash = function(msg) {
+export const sign_publicKeyLength = crypto_sign_PUBLICKEYBYTES;
+export const sign_secretKeyLength = crypto_sign_SECRETKEYBYTES;
+export const sign_seedLength = crypto_sign_SEEDBYTES;
+export const sign_signatureLength = crypto_sign_BYTES;
+export function hash (msg) {
   checkArrayTypes(msg);
   var h = new Uint8Array(crypto_hash_BYTES);
   crypto_hash(h, msg, msg.length);
   return h;
 };
 
-nacl.hash.hashLength = crypto_hash_BYTES;
-
-nacl.verify = function(x, y) {
+export const hash_hashLength = crypto_hash_BYTES;
+export function verify (x, y) {
   checkArrayTypes(x, y);
   // Zero length arguments are considered not equal.
   if (x.length === 0 || y.length === 0) return false;
@@ -2356,7 +2349,7 @@ nacl.verify = function(x, y) {
   return (vn(x, 0, y, 0, x.length) === 0) ? true : false;
 };
 
-nacl.setPRNG = function(fn) {
+export function setPRNG (fn) {
   randombytes = fn;
 };
 
@@ -2367,7 +2360,7 @@ nacl.setPRNG = function(fn) {
   if (crypto && crypto.getRandomValues) {
     // Browsers.
     var QUOTA = 65536;
-    nacl.setPRNG(function(x, n) {
+    setPRNG(function(x, n) {
       var i, v = new Uint8Array(n);
       for (i = 0; i < n; i += QUOTA) {
         crypto.getRandomValues(v.subarray(i, i + Math.min(n - i, QUOTA)));
@@ -2379,7 +2372,7 @@ nacl.setPRNG = function(fn) {
     // Node.js.
     crypto = require('crypto');
     if (crypto && crypto.randomBytes) {
-      nacl.setPRNG(function(x, n) {
+      setPRNG(function(x, n) {
         var i, v = crypto.randomBytes(n);
         for (i = 0; i < n; i++) x[i] = v[i];
         cleanup(v);
@@ -2387,5 +2380,3 @@ nacl.setPRNG = function(fn) {
     }
   }
 })();
-
-})(typeof module !== 'undefined' && module.exports ? module.exports : (self.nacl = self.nacl || {}));
